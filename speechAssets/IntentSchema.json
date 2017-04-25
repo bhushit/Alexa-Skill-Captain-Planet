@@ -1,0 +1,130 @@
+{
+  "intents": [
+    {
+      "name": "AMAZON.CancelIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.HelpIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.RepeatIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.StopIntent",
+      "samples": []
+    },
+    {
+      "name": "RecycleIntent",
+      "samples": [
+        "can i recycle {item}",
+        "recycle {item}",
+        "is {item} recyclable",
+        "how to recycle {item}"
+      ],
+      "slots": [
+        {
+          "name": "item",
+          "type": "item",
+          "samples": [
+            "paper",
+            "plastic",
+            "can",
+            "glass"
+          ]
+        }
+      ]
+    }
+  ],
+  "types": [
+    {
+      "name": "item",
+      "values": [
+        {
+          "name": {
+            "value": "Can"
+          }
+        },
+        {
+          "name": {
+            "value": "Paper"
+          }
+        },
+        {
+          "name": {
+            "value": "Bulb"
+          }
+        },
+        {
+          "name": {
+            "value": "Soda Can"
+          }
+        },
+        {
+          "name": {
+            "value": "Tin Can"
+          }
+        },
+        {
+          "name": {
+            "value": "Cardboard"
+          }
+        },
+        {
+          "name": {
+            "value": "Plastic"
+          }
+        }
+      ]
+    }
+  ],
+  "prompts": [
+    {
+      "id": "Confirm.Intent-RecycleIntent",
+      "promptVersion": "1.0",
+      "definitionVersion": "1.0",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "Please ask a question like can I recycle paper"
+        }
+      ]
+    },
+    {
+      "id": "Elicit.Intent-RecycleIntent.IntentSlot-item",
+      "promptVersion": "1.0",
+      "definitionVersion": "1.0",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "Please specify the item you want to find out about"
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "version": "1.0",
+    "intents": [
+      {
+        "name": "RecycleIntent",
+        "confirmationRequired": true,
+        "prompts": {
+          "confirm": "Confirm.Intent-RecycleIntent"
+        },
+        "slots": [
+          {
+            "name": "item",
+            "type": "item",
+            "elicitationRequired": true,
+            "confirmationRequired": false,
+            "prompts": {
+              "elicit": "Elicit.Intent-RecycleIntent.IntentSlot-item"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
