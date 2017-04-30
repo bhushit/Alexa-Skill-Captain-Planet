@@ -25,10 +25,10 @@ const handlers = {
         }
 
         const cardTitle = this.t('DISPLAY_CARD_TITLE', this.t('SKILL_NAME'), itemName);
-        const recyclingFacts = this.t('INFO');
-        const fact = recyclingFacts[itemName];
+        const recyclingFacts = this.t('INFO_DETAILED');
 
-        if (fact) {
+        if (factExists(recyclingFacts, itemName)) {
+			const fact = getRandomFact(recyclingFacts, itemName);
             this.attributes.speechOutput = fact;
             this.attributes.repromptSpeech = this.t('REPEAT_MESSAGE');
 			VoiceLabs.track(this.event.session, this.event.request.intent.name, this.event.request.intent.slots, fact, (error, response) => {
@@ -120,4 +120,14 @@ function expand(obj) {
         subkeys.forEach(function(key) { obj[key] = target; })
     }
     return obj;
+}
+
+function factExists(dict, itemName) {
+	return dict[itemName].facts.length > 0;
+}
+
+function getRandomFact(dict, itemName) {
+	var facts = dict[itemName].facts;
+	var randomNum = Math.floor(Math.random() * (facts.length));
+	return facts[randomNum].fact;
 }
