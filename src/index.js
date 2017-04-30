@@ -31,17 +31,20 @@ const handlers = {
         let itemName;
         if (itemSlot && itemSlot.value) {
             itemName = itemSlot.value.toLowerCase();
+			this.attributes.itemName = itemName;
         }
 
         const cardTitle = this.t('DISPLAY_CARD_TITLE', this.t('SKILL_NAME'), itemName);
         const recyclingFacts = this.t('INFO_DETAILED');
 
         if (factExists(recyclingFacts, itemName)) {
+			this.attributes.currentState = 'FACT';
 			const fact = getRandomFact(recyclingFacts, itemName);
-            this.attributes.speechOutput = fact;
+			const feedback = nextSuggestion(this, this.attributes.currentState, recyclingFacts, itemName);
+            this.attributes.speechOutput = fact + '... '+ feedback;
             this.attributes.repromptSpeech = this.t('REPEAT_MESSAGE');
-			VoiceLabs.track(this.event.session, this.event.request.intent.name, this.event.request.intent.slots, fact, (error, response) => {
-				this.emit(':askWithCard', fact, this.attributes.repromptSpeech, cardTitle, fact);
+			VoiceLabs.track(this.event.session, this.event.request.intent.name, this.event.request.intent.slots, this.attributes.speechOutput, (error, response) => {
+				this.emit(':askWithCard', this.attributes.speechOutput, this.attributes.repromptSpeech, cardTitle, fact);
 			});
         } else {
             let speechOutput = this.t('NOT_FOUND_MESSAGE');
@@ -117,6 +120,9 @@ const languageStrings = {
             NOT_FOUND_WITH_ITEM_NAME: 'the info for %s. ',
             NOT_FOUND_WITHOUT_ITEM_NAME: 'that info. ',
             NOT_FOUND_REPROMPT: 'What else can I help with?',
+			SUGGEST_TIP_WITH_ITEM: "Would you like me to suggest some tips for recycling %s?",
+			SUGGEST_ACTION_WITH_ITEM: "Would you like me to suggest some ways to recycle %s?",
+			DEFAULT_REPROMPT: 'What else can I help with?',
         },
     },
 };
@@ -149,4 +155,30 @@ function getRandomFact(dict, itemName) {
 	var facts = dict[itemName].facts;
 	var randomNum = Math.floor(Math.random() * (facts.length));
 	return facts[randomNum].fact;
+}	
+
+function tipExists(dict, itemName) {
+	return dict[itemName].tips.length > 0;
+}
+
+function actionExists(dict, itemName) {
+	return dict[itemName].actions.length > 0;
+}
+
+function nextSuggestion(context, currentState, dict, itemName)  {
+	if(currentState === 'FACT') {
+		if(tipExists(dict, itemName)) {
+			context.attributes.suggestedState = 'TIP';
+			return context.t('SUGGEST_TIP_WITH_ITEM',itemName);
+		} else if(actionExists(dict, itemName)) {
+			context.attributes.suggestedState = 'ACTION';
+			return context.t('SUGGEST_ACTION_WITH_ITEM',itemName);
+		}
+	} else if(currentState === 'TIP') {
+		if(actionExists(dict, itemName)) {
+			context.attributes.suggestedState = 'ACTION';
+			return context.t('SUGGEST_ACTION_WITH_ITEM',itemName);
+		} 
+	}
+	return context.t('DEFAULT_REPROMPT');
 }
