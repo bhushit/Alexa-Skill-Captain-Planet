@@ -1,0 +1,11 @@
+NoIntent No
+NoIntent Nope
+RecycleIntent can i recycle {item}
+RecycleIntent recycle {item}
+RecycleIntent is {item} recyclable
+RecycleIntent how to recycle {item}
+WelcomeIntent hello
+WelcomeIntent what can you do
+WelcomeIntent hi
+YesIntent sure
+YesIntent yes
