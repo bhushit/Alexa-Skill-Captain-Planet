@@ -2,6 +2,8 @@
 require('dotenv').config();
 const Alexa = require('alexa-sdk');
 const info = require('./info');
+const info_detailed = require('./info_detailed');
+
 const APP_ID = process.env.ALEXA_APP_ID;
 var VoiceLabs = require("voicelabs")(process.env.VOICE_LABS_API_KEY);
 
@@ -83,6 +85,7 @@ const languageStrings = {
     'en-US': {
         translation: {
             INFO: info.FACTS_EN_US,
+			INFO_DETAILED: expand(info_detailed.FACTS_EN_US),
             SKILL_NAME: 'Captain Planet',
             WELCOME_MESSAGE: "I AM %s. You can ask a question like, can I recycle a soda can? ... Now, what can I help you with.",
             WELCOME_REPROMT: 'For instructions on what you can say, please say help me.',
@@ -106,3 +109,15 @@ exports.handler = (event, context) => {
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
+
+function expand(obj) {
+    var keys = Object.keys(obj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i],
+            subkeys = key.split(/,\s?/),
+            target = obj[key];
+        delete obj[key];
+        subkeys.forEach(function(key) { obj[key] = target; })
+    }
+    return obj;
+}
