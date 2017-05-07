@@ -17,15 +17,6 @@ const handlers = {
 			this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
 		});
     },
-	'WelcomeIntent': function () {
-        this.attributes.speechOutput = this.t('WELCOME_MESSAGE', this.t('SKILL_NAME'));
-        // If the user either does not reply to the welcome message or says something that is not
-        // understood, they will be prompted again with this text.
-        this.attributes.repromptSpeech = this.t('WELCOME_REPROMT');
-        VoiceLabs.track(this.event.session, this.event.request.intent.name, this.event.request.intent.slots, this.attributes.speechOutput, (error, response) => {
-			this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
-		});
-    },
     'RecycleIntent': function () {
         const itemSlot = this.event.request.intent.slots.item;
         let itemName;
