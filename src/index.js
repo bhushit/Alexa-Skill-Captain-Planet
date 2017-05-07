@@ -64,9 +64,18 @@ const handlers = {
 			});
         }
     },
-	'YesInent': function () {
-		VoiceLabs.track(this.event.session, intent.name, intent.slots, this.t('STOP_MESSAGE'), (error, response) => {
-			this.emit(':tell', this.t('STOP_MESSAGE'));
+	'YesIntent': function () {
+		const currentState = this.attributes.suggestedState;
+		const itemName = this.attributes.itemName;
+		const eventPrompt = getInfoForState(currentState, this.t('INFO_DETAILED'), itemName);
+		const feedback = nextSuggestion(this, currentState, this.t('INFO_DETAILED'), itemName);
+
+		const cardTitle = this.t('DISPLAY_CARD_TITLE', this.t('SKILL_NAME'), itemName);
+
+		this.attributes.speechOutput = eventPrompt + '... '+ feedback;
+		this.attributes.repromptSpeech = feedback;
+		VoiceLabs.track(this.event.session, currentState, this.event.request.intent.slots, this.t('STOP_MESSAGE'), (error, response) => {
+			this.emit(':askWithCard', this.attributes.speechOutput, this.attributes.repromptSpeech, cardTitle, eventPrompt);
 		});
 	},
 	'NoIntent':function () {
@@ -148,7 +157,7 @@ function expand(obj) {
 }
 
 function factExists(dict, itemName) {
-	return dict[itemName].facts.length > 0;
+	return dict[itemName] && dict[itemName].facts.length > 0;
 }
 
 function getRandomFact(dict, itemName) {
@@ -158,11 +167,43 @@ function getRandomFact(dict, itemName) {
 }	
 
 function tipExists(dict, itemName) {
-	return dict[itemName].tips.length > 0;
+	return dict[itemName] && dict[itemName].tips.length > 0;
 }
 
+function getRandomTip(dict, itemName) {
+	var tips = dict[itemName].tips;
+	var randomNum = Math.floor(Math.random() * (tips.length));
+	return tips[randomNum].tip;
+}	
+
 function actionExists(dict, itemName) {
-	return dict[itemName].actions.length > 0;
+	return dict[itemName] && dict[itemName].actions.length > 0;
+}
+
+function getRandomAction(dict, itemName) {
+	var actions = dict[itemName].actions;
+	var randomNum = Math.floor(Math.random() * (actions.length));
+	return actions[randomNum].action;
+}
+
+function getInfoForState(event, dict, itemName) {
+	switch(event) {
+		case 'FACT':
+			if(factExists(dict, itemName)) {
+				return getRandomFact(dict, itemName);
+			}
+			break;
+		case 'TIP':
+			if(tipExists(dict, itemName)) {
+				return getRandomTip(dict, itemName);
+			}
+			break;
+		case 'ACTION':
+			if(actionExists(dict, itemName)) {
+				return getRandomAction(dict, itemName);
+			}
+			break;
+	}
 }
 
 function nextSuggestion(context, currentState, dict, itemName)  {
