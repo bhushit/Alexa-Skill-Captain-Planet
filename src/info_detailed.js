@@ -3,7 +3,7 @@ module.exports = {
 		"automotive fluid, antifreeze, motor oil, oil, used oil, transmission fluid": {
 			"facts": [
 				{
-					"fact":"Every gallon of used motor oil that is improperly discarded can contaminate 1 million gallons of drinking water, according to the EPA.",
+					"fact":"According to the EPA, Every gallon of used motor oil that is improperly discarded can contaminate 1 million gallons of drinking water.",
 					"source": {
 						"name":"Earth911",
 						"url":"http://earth911.com/recycling-guide/how-to-recycle-automotive-fluids/"
@@ -12,7 +12,7 @@ module.exports = {
 			],
 			"tips": [
 				{
-					"tip":"Government jurisdictions classify used motor oil and other auto fluids as hazardous waste and require proper disposal by law. If your motor oil, transmission fluid, brake fluid, or antifreeze has been contaminated with any other fluids most locations will not accept it for recycling.",
+					"tip":"Make sure to recycle motor oil in the proper way. Government jurisdictions classify used motor oil and other auto fluids as hazardous waste and require proper disposal by law. If your motor oil, transmission fluid, brake fluid, or antifreeze has been contaminated with any other fluids most locations will not accept it for recycling.",
 					"source": {
 						"name":"Earth911",
 						"url":"http://earth911.com/recycling-guide/how-to-recycle-automotive-fluids/"
@@ -55,7 +55,7 @@ module.exports = {
 			],
 			"category":"can"			
 		},
-		"aluminum can": {
+		"aluminum can, soda can, can": {
 			"facts": [
 				{
 					"fact":"The energy you save by recycling a single aluminum can will run a TV for 3 hours.",
@@ -71,23 +71,29 @@ module.exports = {
 						"url":"http://earth911.com/recycling-guide/how-to-recycle-aluminum-cans/"
 					}
 				},
+			],
+			"tips": [
 				{
-					"fact":"The aluminum in one single soda is worth about a cent. Some companies and organizations like 'Cans Count' help schools and charities in need of funding organize recycling drives of aluminum cans. Check with local schools and charities to see if they are already participating in such efforts.",
+					"tip":"t’s better to not crush soda cans as crushing it can get it mixed with paper by the processing equipment … it’s not a good thing, let’s not do it.",
 					"source": {
-						"name":"Earth911",
-						"url":"http://earth911.com/recycling-guide/how-to-recycle-aluminum-cans/"
+						"name":"",
+						"url":""
 					}
 				}
 			],
-			"tips": [
-				
-			],
 			"actions": [
-				
+				{
+					"action":"The aluminum in one single soda is worth about a cent. Some companies and organizations like 'Cans Count' help schools and charities in need of funding organize recycling drives of aluminum cans. Check with local schools and charities to see if they are already participating in such efforts.",
+					"source": {
+						"name":"Earth911",
+						"url":"http://earth911.com/recycling-guide/how-to-recycle-aluminum-cans/"
+					},
+					"type":"find-recycler"
+				}
 			],
 			"category":"can"			
 		},
-		"steel can, tin can, soup can, coffee can": {
+		"steel can, tin can, soup can, coffee can, veggie can": {
 			"pre": "Tin cans also called as steel cans are usally used for soup cans, vegetable cans, etc.",
 			"facts": [
 				{
@@ -113,7 +119,7 @@ module.exports = {
 			],
 			"category":"can"			
 		},
-		"book, magazine": {
+		"book, books, magazine, magazines": {
 			"facts": [
 				{
 					"fact":"Some consumers think glossy paper can\'t be recycled. That may have been true in the early days of recycling, but no longer. About 45 percent of magazines are being recycled today.",
@@ -165,7 +171,67 @@ module.exports = {
 				
 			],
 			"category":"paper"			
-		}
-		
+		},
+		"aluminum foil, foil": {
+			"facts": [
+				{
+					"fact":"Aluminum can be recycled almost infinitely. The process involves simply re-melting the metal, a process far less costly and energy-intensive than mining the minerals necessary to create new aluminum.",
+					"source": {
+						"name":"",
+						"url":""
+					}
+				},
+				{
+					"fact":"Americans discarded 460,000 tons of foil in 2010. However, Americans are far more likely to recycle aluminum soda cans than aluminum foil.",
+					"source": {
+						"name":"",
+						"url":""
+					}
+				}
+			],
+			"tips": [
+				
+			],
+			"actions": [
+				
+			],
+			"category":"can"			
+		},
+		"cardboard": {
+			"facts": [
+				{
+					"fact":"Currently, about 70 percent of cardboard-boxes shipped commercially are recovered for recycling. When recycled, cardboard is used to make chipboard like cereal boxes, paperboard, paper towels, tissues and printing or writing paper. It\'s also made into more corrugated cardboard.",
+					"source": {
+						"name":"",
+						"url":""
+					}
+				}
+			],
+			"tips": [
+				
+			],
+			"actions": [
+				
+			],
+			"category":"paper"			
+		},
+		"plastic": {
+			"facts": [
+				{
+					"fact":"Plastics come in a variety of shapes, colors and chemical formulations - all with different recycling needs. Are you wondering how can you tell what kinds of plastic to put into your recycling bin?? Recycle by shape! Bottles, jars, and jugs – is the best way to know what is accepted..",
+					"source": {
+						"name":"Earth911",
+						"url":""
+					}
+				}
+			],
+			"tips": [
+				
+			],
+			"actions": [
+				
+			],
+			"category":"paper"			
+		}	
 	}
 };
