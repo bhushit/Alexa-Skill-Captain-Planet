@@ -1,7 +1,6 @@
 'use strict';
 require('dotenv').config();
 const Alexa = require('alexa-sdk');
-const info = require('./info');
 const info_detailed = require('./info_detailed');
 
 const APP_ID = process.env.ALEXA_APP_ID;
@@ -12,8 +11,7 @@ const handlers = {
         this.attributes.speechOutput = this.t('WELCOME_MESSAGE', this.t('SKILL_NAME'));
         
         this.attributes.repromptSpeech = this.t('WELCOME_REPROMT');
-		//this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
-        VoiceLabs.track(this.event.session, this.event.request.intent.name, this.event.request.intent.slots, this.attributes.speechOutput, (error, response) => {
+		 VoiceLabs.track(this.event.session, "Launch", null, this.attributes.speechOutput, (error, response) => {
 			this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
 		});
     },
@@ -21,11 +19,11 @@ const handlers = {
 		this.attributes.speechOutput = this.t('WELCOME_MESSAGE', this.t('SKILL_NAME'));
        
 	    this.attributes.repromptSpeech = this.t('WELCOME_REPROMT');
-        VoiceLabs.track(this.event.session, this.event.request.intent.name, this.event.request.intent.slots, this.attributes.speechOutput, (error, response) => {
+        VoiceLabs.track(this.event.session, "SessionStart", null, this.attributes.speechOutput, (error, response) => {
 			this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
 		});
 	},
-    'RecycleIntent': function () {
+    'Recycle': function () {
         const itemSlot = this.event.request.intent.slots.item;
         let itemName;
         if (itemSlot && itemSlot.value) {
@@ -154,34 +152,34 @@ const handlers = {
 		});
 	},
 	'NoIntent':function () {
-		VoiceLabs.track(this.event.session, intent.name, intent.slots, this.t('STOP_MESSAGE'), (error, response) => {
+        VoiceLabs.track(this.event.session, "NoIntent", null, this.t('STOP_MESSAGE'), (error, response) => {
 			this.emit(':tell', this.t('STOP_MESSAGE'));
 		});
 	},
     'AMAZON.HelpIntent': function () {
         this.attributes.speechOutput = this.t('HELP_MESSAGE');
         this.attributes.repromptSpeech = this.t('HELP_REPROMT');
-		VoiceLabs.track(this.event.session, intent.name, intent.slots, this.attributes.speechOutput, (error, response) => {
+		VoiceLabs.track(this.event.session, "Help", null, this.attributes.speechOutput, (error, response) => {
 			this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
 		});
     },
     'AMAZON.RepeatIntent': function () {
-		VoiceLabs.track(this.event.session, intent.name, intent.slots, this.attributes.speechOutput, (error, response) => {
+		VoiceLabs.track(this.event.session, "Repeat", null, this.attributes.speechOutput, (error, response) => {
 			this.emit(':ask', this.attributes.speechOutput, this.attributes.repromptSpeech);
 		});
     },
     'AMAZON.StopIntent': function () {
-		VoiceLabs.track(this.event.session, intent.name, intent.slots, null, (error, response) => {
-			this.emit('SessionEndedRequest');
+		VoiceLabs.track(this.event.session, "Stop", null, this.t('STOP_MESSAGE'), (error, response) => {
+			this.emit(':tell', this.t('STOP_MESSAGE'));
 		});
     },
     'AMAZON.CancelIntent': function () {
-		VoiceLabs.track(this.event.session, intent.name, intent.slots, null, (error, response) => {
-			this.emit('SessionEndedRequest');
+		VoiceLabs.track(this.event.session, "Cancel", null, this.t('STOP_MESSAGE'), (error, response) => {
+			this.emit(':tell', this.t('STOP_MESSAGE'));
 		});
     },
     'SessionEndedRequest': function () {
-		VoiceLabs.track(this.event.session, intent.name, intent.slots, this.t('STOP_MESSAGE'), (error, response) => {
+		VoiceLabs.track(this.event.session, "SessionEnd" , null, this.t('STOP_MESSAGE'), (error, response) => {
 			this.emit(':tell', this.t('STOP_MESSAGE'));
 		});
     },
@@ -190,7 +188,6 @@ const handlers = {
 const languageStrings = {
     'en-US': {
         translation: {
-            INFO: info.FACTS_EN_US,
 			INFO_DETAILED: expand(info_detailed.FACTS_EN_US),
             SKILL_NAME: 'Captain Planet',
             WELCOME_MESSAGE: "I AM %s. You can ask a question like, can I recycle a soda can? ... Now, what can I help you with.",
