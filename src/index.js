@@ -110,7 +110,7 @@ const handlers = {
         const cardTitle = this.t('DISPLAY_CARD_TITLE', this.t('SKILL_NAME'), itemName);
         const recyclingFacts = this.t('INFO_DETAILED');
 
-        if (tipsExists(recyclingFacts, itemName)) {
+        if (tipExists(recyclingFacts, itemName)) {
 			this.attributes.currentState = 'TIP';
 			const fact = getRandomTip(recyclingFacts, itemName);
 			const feedback = nextSuggestion(this, this.attributes.currentState, recyclingFacts, itemName);
